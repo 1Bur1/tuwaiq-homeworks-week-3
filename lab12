@@ -1,0 +1,31 @@
+import pandas as pd 
+import numpy as np 
+
+df = pd.read_csv("data/day12_users.csv") 
+
+
+def standardize_city(df: pd.DataFrame) -> pd.DataFrame: 
+  
+  out = df.copy() 
+  out["city_clean"] = out["city"].astype(str) 
+  
+  out["city_clean"] = out["city_clean"].str.replace(r"[^0-9A-Za-z\s\-]", "", regex=True) 
+  
+  out["city_clean"] = out["city_clean"].replace({"NYC": "new york", "New York": "new york", "San Francisco": "san francisco", "san-francisco": "san francisco", "San Francisco!": "san francisco"}) 
+  
+  return out 
+  
+  
+  
+  def parse_and_localize(df: pd.DataFrame) -> pd.DataFrame: 
+    
+    out = df.copy() 
+    
+    out["signup_dt"] = pd.to_datetime(out["signup_time"], errors="coerce") 
+    
+    return out 
+    
+    df = standardize_city(df) 
+    df = parse_and_localize(df) 
+    
+print(df[["city", "city_clean", "signup_time", "signup_dt"]].head(10))
