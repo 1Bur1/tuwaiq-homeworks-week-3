@@ -1,0 +1,95 @@
+
+#Day 14 Activity: Full Cleaning Pipeline
+#Tasks:
+#1) Build clean_data() that orchestrates type, missing, outliers, strings/dates
+#2) Add basic validation checks
+#3) Run end-to-end and inspect
+
+
+import pandas as pd
+import numpy as np
+
+# TODO: Implement clean_types(df)
+def clean_types(df):
+
+    out = df.copy()
+
+    out["age"] = pd.to_numeric(out["age"], errors="coerce")
+
+    out["income"] = pd.to_numeric(out["income"], errors="coerce")
+
+    return out
+
+ 
+
+
+ 
+# TODO: Implement clean_missing(df)
+def clean_missing(df):
+
+    out = df.copy()
+
+    out["age"] = out["age"].fillna(out["age"].median())
+
+    return out
+
+
+
+
+
+# TODO: Implement handle_outliers(df)
+def handle_outliers(df):
+
+    out = df.copy()
+
+    out["age"] = np
+
+
+
+
+
+# TODO: Implement clean_strings_and_dates(df)
+def clean_strings_and_dates(s, col_name):
+
+    converted = pd.to_numeric(s, errors="coerce")
+
+    n_invalid = converted.isna().sum() - s.isna().sum()
+
+    if n_invalid > 0: print(f"[WARN] {n_invalid} invalid in {col_name}")
+
+    return converted
+
+
+
+
+# TODO: Implement validate_cleaned(df)
+def validate_cleaned(df):
+
+    assert df["age"].min() >= 0, "Negative ages found"
+
+    assert df["income"].notna().all(), "Income still has NaN"
+
+ 
+
+def log_summary(df, step_name):
+
+    print(f"--- {step_name} ---\nRows: {len(df)}\nMissing age: {df['age'].isna().sum()}")
+
+
+
+    
+
+# TODO: Implement clean_data(df) that calls the above in order
+def clean_data(df):
+
+    df = clean_types(df)           # 1. Types first
+
+    df = clean_missing(df)         # 2. Then missing values
+
+    df = handle_outliers(df)       # 3. Then outliers
+
+    df = clean_strings_and_dates(df)  # 4. Then strings/dates
+
+    df = add_features(df)          # 5. Finally derived features
+
+    return df
