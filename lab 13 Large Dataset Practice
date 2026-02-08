@@ -1,0 +1,35 @@
+
+#Day 13 Activity: Large Dataset Cleaning
+#Tasks:
+#1) Read CSV in chunks
+#2) Clean each chunk (e.g., numeric conversion)
+#3) Append cleaned chunks to output CSV
+#4) Track basic performance metrics
+
+
+import pandas as pd
+import time
+
+# TODO: Implement clean_chunk(df)
+
+df = pd.read_csv("day13_large_users")
+
+for col in df.columns:
+    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+  
+# TODO: Implement process_large_file(path_in, path_out, chunksize)
+
+import time
+
+def clean_chunk(chunk): return chunk.copy()
+
+ 
+
+start = time.perf_counter()
+
+cleaned = clean_chunk(sample_df)
+
+elapsed = time.perf_counter() - start
+
+print(f"Chunk cleaned in {elapsed:.3f} seconds")
